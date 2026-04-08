@@ -1,0 +1,340 @@
+/*
+  Накладка для мемної / «поганої» сторінки — порядок підключення важливий: цей файл іде після styles.css,
+  щоб навісити зайві анімації на ті самі класи, не чіпаючи базовий файл.
+
+  Задум: лишити кілька @keyframes і крутити їх з різними швидкостями та затримками,
+  щоб нічого навмисно не збігалося в ритмі. Виглядає божевільно, але це лише CSS.
+*/
+
+/* Якщо в macOS / iOS тощо увімкнено «зменшити рух» — вимикаємо жартівливі анімації.
+   Верстка з styles.css лишається; сторінка просто стає статичною. */
+@media (prefers-reduced-motion: reduce) {
+  body.page-meme {
+    filter: none !important;
+  }
+
+  body.page-meme .site-header#top,
+  body.page-meme .header-inner,
+  body.page-meme .hero-layout,
+  body.page-meme .hero-title,
+  body.page-meme .hero-lead,
+  body.page-meme .hero-actions,
+  body.page-meme .hero-mockup,
+  body.page-meme .hero-mockup img,
+  body.page-meme .logo-img,
+  body.page-meme .logo-text,
+  body.page-meme .nav-primary a,
+  body.page-meme .section-title,
+  body.page-meme .about-grid,
+  body.page-meme .features-grid,
+  body.page-meme .about-outro,
+  body.page-meme .about-avatar img,
+  body.page-meme .feature-visual img,
+  body.page-meme .demo-title,
+  body.page-meme .demo-video-wrap,
+  body.page-meme .demo-video,
+  body.page-meme .testimonials-block,
+  body.page-meme .testimonials-row,
+  body.page-meme .testimonial-photo,
+  body.page-meme .cta-glow,
+  body.page-meme .cta-title,
+  body.page-meme .cta-inner .btn,
+  body.page-meme .hero-actions .btn,
+  body.page-meme .site-footer,
+  body.page-meme .footer-grid,
+  body.page-meme .social-link {
+    animation: none !important;
+  }
+}
+
+/* --- кейфрейми: номери нижче — щоб легше крутити значення, коли щось ламається --- */
+
+/* 1) Відтінок на всю сторінку, ступінчасто — різкі стрибки між кольорами, без плавних переходів */
+@keyframes m-hue {
+  0% {
+    filter: hue-rotate(0deg) saturate(1.2);
+  }
+  33% {
+    filter: hue-rotate(120deg) saturate(1.6);
+  }
+  66% {
+    filter: hue-rotate(260deg) saturate(1.4);
+  }
+  100% {
+    filter: hue-rotate(360deg) saturate(1.2);
+  }
+}
+
+/* 2) Робоча конячка: translate + rotate + scale в одному циклі. Різна тривалість
+   на різних елементах — ніби вони сваряться між собою. */
+@keyframes m-chaos {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  20% {
+    transform: translate(-32px, 22px) rotate(-14deg) scale(1.07);
+  }
+  40% {
+    transform: translate(28px, -26px) rotate(16deg) scale(0.93);
+  }
+  60% {
+    transform: translate(36px, 18px) rotate(-11deg) scale(1.05);
+  }
+  80% {
+    transform: translate(-24px, -30px) rotate(12deg) scale(0.96);
+  }
+}
+
+/* 3) Лише h1 у герої з text-shadow — якщо ще й transform, зіткнеться
+   з anim-slide-up з styles.css (два transform на одному елементі = каша). */
+@keyframes m-title-flash {
+  0%,
+  100% {
+    text-shadow: 4px 4px 0 #f0f, -4px -4px 0 #0ff;
+  }
+  25% {
+    text-shadow: -12px 8px 0 #ff0, 10px -6px 0 #f06;
+  }
+  50% {
+    text-shadow: 8px -14px 0 #0f6, -10px 10px 0 #60f;
+  }
+  75% {
+    text-shadow: -6px -10px 0 #fa0, 14px 4px 0 #09f;
+  }
+}
+
+/* 4) Підзаголовок: пульс letter/word spacing — «дихає», не зміщуючи блок */
+@keyframes m-lead-space {
+  0%,
+  100% {
+    letter-spacing: 0;
+    word-spacing: normal;
+  }
+  50% {
+    letter-spacing: 0.35em;
+    word-spacing: 0.4em;
+  }
+}
+
+/* 5) Дешевий акцент: короткий провал opacity — на відео й футері */
+@keyframes m-blink {
+  0%,
+  90%,
+  100% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.35;
+  }
+  96% {
+    opacity: 0.85;
+  }
+}
+
+/* 6) Простий оберт на 360° — аватари й пляма світіння CTA */
+@keyframes m-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- навішуємо анімації на реальну верстку з styles.css (тут без додаткових брейкпоінтів) --- */
+
+/* Райдужна заливка на всю сторінку; ступінчастий таймінг лишає вульгарним */
+body.page-meme {
+  animation: m-hue 3.5s steps(1) infinite;
+}
+
+body.page-meme .site-header#top {
+  animation: m-chaos 2.1s linear infinite;
+}
+
+body.page-meme .header-inner {
+  animation: m-chaos 0.85s steps(1, end) infinite;
+  transition: box-shadow 0.2s ease;
+}
+
+body.page-meme .header-inner:hover {
+  box-shadow: 0 0 0 4px #f0f;
+}
+
+body.page-meme .hero-layout {
+  animation: m-chaos 4.2s linear infinite reverse;
+}
+
+body.page-meme .logo-img {
+  animation: m-chaos 1.15s linear infinite;
+  transition: filter 0.25s ease;
+}
+
+body.page-meme .logo-link:hover .logo-img {
+  filter: hue-rotate(180deg);
+}
+
+body.page-meme .logo-text {
+  display: inline-block;
+  animation: m-chaos 0.95s steps(2, end) infinite;
+}
+
+body.page-meme .nav-primary li:nth-child(1) a {
+  animation: m-chaos 0.7s linear infinite;
+}
+
+body.page-meme .nav-primary li:nth-child(2) a {
+  animation: m-chaos 1.1s linear infinite reverse;
+  animation-delay: 0.15s;
+}
+
+body.page-meme .nav-primary li:nth-child(3) a {
+  animation: m-chaos 0.55s steps(1, end) infinite;
+  animation-delay: 0.3s;
+}
+
+/* Перший рядок — разова поява з styles.css; другий — безкінечне неонове миготіння тіні */
+body.page-meme .hero-title {
+  animation:
+    anim-slide-up 0.75s var(--ease-out-soft) 0.08s both,
+    m-title-flash 0.45s steps(1) infinite;
+  animation-delay: 0.08s, 0.8s;
+}
+
+body.page-meme .hero-lead {
+  animation:
+    anim-slide-up 0.75s var(--ease-out-soft) 0.2s both,
+    m-lead-space 1.2s ease-in-out infinite;
+  animation-delay: 0.2s, 0.85s;
+}
+
+body.page-meme .hero-actions {
+  animation:
+    anim-slide-up 0.75s var(--ease-out-soft) 0.32s both,
+    m-chaos 1.4s linear infinite;
+  animation-delay: 0.32s, 0.95s;
+}
+
+body.page-meme .hero-actions .btn.btn--primary {
+  animation: m-chaos 0.5s steps(1, end) infinite;
+}
+
+body.page-meme .hero-actions .btn.btn--ghost {
+  animation: m-chaos 0.65s linear infinite reverse;
+  animation-delay: 0.12s;
+}
+
+body.page-meme .btn {
+  transition: transform 0.15s ease, filter 0.2s ease;
+}
+
+/* Мокап: як у заголовка — спочатку вхідна анімація, потім хаос з невеликою затримкою */
+body.page-meme .hero-mockup {
+  animation:
+    anim-slide-scale 0.95s var(--ease-out-soft) 0.38s both,
+    m-chaos 3.3s linear infinite;
+  animation-delay: 0.38s, 1.05s;
+}
+
+body.page-meme .hero-mockup img {
+  animation: m-chaos 2.6s linear infinite reverse;
+  transition: filter 0.25s ease;
+}
+
+body.page-meme .section-title {
+  animation: m-chaos 2.8s steps(2, end) infinite;
+}
+
+body.page-meme .about-grid {
+  animation: m-chaos 5s linear infinite;
+}
+
+body.page-meme .features-grid {
+  animation: m-chaos 4.5s linear infinite reverse;
+  animation-delay: 0.4s;
+}
+
+body.page-meme .about-outro {
+  display: block;
+  animation: m-chaos 3.7s linear infinite alternate;
+}
+
+body.page-meme .about-avatar img {
+  animation: m-spin 6s linear infinite;
+  transition: filter 0.2s ease;
+}
+
+/* Щоб можна було роздивитися обличчя без обертання — крихітний жест до зручності */
+body.page-meme .about-card:hover .about-avatar img {
+  animation-play-state: paused;
+}
+
+body.page-meme .feature-visual img {
+  animation:
+    m-hue 2.8s steps(1) infinite,
+    m-chaos 2.2s linear infinite;
+}
+
+body.page-meme .demo-title {
+  animation: m-chaos 1.8s linear infinite;
+}
+
+body.page-meme .demo-video-wrap {
+  animation: m-chaos 1.25s steps(1, end) infinite;
+  perspective: 600px;
+}
+
+body.page-meme .demo-video {
+  animation: m-blink 2.5s steps(1) infinite;
+}
+
+body.page-meme .testimonials-block {
+  animation: m-hue 4s steps(1) infinite reverse;
+}
+
+body.page-meme .testimonials-row {
+  animation: m-chaos 3.1s linear infinite;
+}
+
+body.page-meme .testimonial-photo {
+  animation: m-chaos 1.05s linear infinite;
+}
+
+body.page-meme .testimonial-card:nth-child(2) .testimonial-photo {
+  animation-delay: 0.2s;
+}
+
+body.page-meme .testimonial-card:nth-child(3) .testimonial-photo {
+  animation-delay: 0.45s;
+}
+
+body.page-meme .cta-glow {
+  animation: m-spin 14s linear infinite;
+}
+
+body.page-meme .cta-inner .btn.btn--large {
+  animation: m-chaos 0.48s linear infinite;
+}
+
+body.page-meme .cta-title {
+  animation: m-chaos 1.6s steps(1, end) infinite;
+}
+
+body.page-meme .site-footer#footer {
+  animation: m-blink 3s steps(1) infinite;
+}
+
+body.page-meme .footer-grid {
+  animation: m-chaos 6.5s linear infinite reverse;
+}
+
+body.page-meme .social-link {
+  display: inline-block;
+  animation: m-chaos 0.72s linear infinite;
+}
+
+body.page-meme .social-list li:nth-child(2) .social-link {
+  animation-delay: 0.18s;
+}
+
+body.page-meme .social-list li:nth-child(3) .social-link {
+  animation-delay: 0.36s;
+}
