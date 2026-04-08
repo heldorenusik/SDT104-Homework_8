@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tricky Layout</title>
+
+    <style>
+      :root {
+        --canvas-size: 700px;
+        --border: 4px;
+
+        /* кольори */
+        --yellow: #FFFF00;
+        --red: #FF0000;
+        --blue: #0000FF;
+        --white: #FFFFFF;
+
+        /* координати X */
+        --x0: 0px;
+        --x1: 100px;
+        --x2: 200px;
+        --x3: 300px;
+        --x4: 400px;
+        --x5: 500px;
+        --x6: 600px;
+        --x7: 700px;
+
+        /* координати Y */
+        --y0: 0px;
+        --y1: 100px;
+        --y2: 200px;
+        --y3: 300px;
+        --y4: 500px;
+        --y5: 600px;
+        --y6: 700px;
+      }
+
+      body {
+        margin: 0;
+        background: #111;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+      }
+
+      .canvas {
+        position: relative;
+        width: var(--canvas-size);
+        height: var(--canvas-size);
+        background: #000;
+      }
+
+     /* базовий клас для всіх блоків */
+      .block {
+        position: absolute;
+        box-sizing: border-box;
+        border: var(--border) solid #000;
+        background: var(--white);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: 700;
+        font-size: 18px;
+        color: #111;
+      }
+
+      .yellow {
+        background: var(--yellow);
+      }  
+      .red {
+        background: var(--red);
+      }   
+      .blue {
+        background: var(--blue);
+      }  
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <!-- 1 -->
+      <div
+        class="block yellow"
+        style="
+          left: var(--x0);
+          top: var(--y0);
+          width: calc(var(--x1) - var(--x0));
+          height: calc(var(--y3) - var(--y0));
+        "
+      >
+        1
+      </div>
+
+      <!-- 2 -->
+      <div
+        class="block red"
+        style="
+          left: var(--x1);
+          top: var(--y0);
+          width: calc(var(--x2) - var(--x1));
+          height: calc(var(--y2) - var(--y0));
+        "
+      >
+        2
+      </div>
+
+      <!-- 3 -->
+      <div
+        class="block"
+        style="
+          left: var(--x2);
+          top: var(--y0);
+          width: calc(var(--x4) - var(--x2));
+          height: calc(var(--y1) - var(--y0));
+        "
+      >
+        3
+      </div>
+
+      <!-- 4 -->
+      <div
+        class="block"
+        style="
+          left: var(--x2);
+          top: var(--y1);
+          width: calc(var(--x4) - var(--x2));
+          height: calc(var(--y2) - var(--y1));
+        "
+      >
+        4
+      </div>
+
+      <!-- 5 -->
+      <div
+        class="block"
+        style="
+          left: var(--x1);
+          top: var(--y2);
+          width: calc(var(--x3) - var(--x1));
+          height: calc(var(--y3) - var(--y2));
+        "
+      >
+        5
+      </div>
+
+      <!-- 6 -->
+      <div
+        class="block"
+        style="
+          left: var(--x3);
+          top: var(--y2);
+          width: calc(var(--x4) - var(--x3));
+          height: calc(var(--y3) - var(--y2));
+        "
+      >
+        6
+      </div>
+
+      <!-- 7 -->
+      <div
+        class="block"
+        style="
+          left: var(--x4);
+          top: var(--y0);
+          width: calc(var(--x6) - var(--x4));
+          height: calc(var(--y3) - var(--y0));
+        "
+      >
+        7
+      </div>
+
+      <!-- 8 -->
+      <div
+        class="block"
+        style="
+          left: var(--x6);
+          top: var(--y0);
+          width: calc(var(--x7) - var(--x6));
+          height: calc(var(--y3) - var(--y0));
+        "
+      >
+        8
+      </div>
+
+      <!-- 9 -->
+      <div
+        class="block"
+        style="
+          left: var(--x0);
+          top: var(--y3);
+          width: calc(var(--x3) - var(--x0));
+          height: calc(var(--y5) - var(--y3));
+        "
+      >
+        9
+      </div>
+
+      <!-- 10 -->
+      <div
+        class="block"
+        style="
+          left: var(--x3);
+          top: var(--y3);
+          width: calc(var(--x5) - var(--x3));
+          height: calc(var(--y4) - var(--y3));
+        "
+      >
+        10
+      </div>
+
+      <!-- 11 -->
+      <div
+        class="block blue"
+        style="
+          left: var(--x5);
+          top: var(--y3);
+          width: calc(var(--x6) - var(--x5));
+          height: calc(var(--y4) - var(--y3));
+        "
+      >
+        11
+      </div>
+
+      <!-- 12 -->
+      <div
+        class="block yellow"
+        style="
+          left: var(--x6);
+          top: var(--y3);
+          width: calc(var(--x7) - var(--x6));
+          height: calc(var(--y4) - var(--y3));
+        "
+      >
+        12
+      </div>
+
+      <!-- 13 -->
+      <div
+        class="block"
+        style="
+          left: var(--x3);
+          top: var(--y4);
+          width: calc(var(--x5) - var(--x3));
+          height: calc(var(--y5) - var(--y4));
+        "
+      >
+        13
+      </div>
+
+      <!-- 14 -->
+      <div
+        class="block"
+        style="
+          left: var(--x0);
+          top: var(--y5);
+          width: calc(var(--x3) - var(--x0));
+          height: calc(var(--y6) - var(--y5));
+        "
+      >
+        14
+      </div>
+
+      <!-- 15 -->
+      <div
+        class="block"
+        style="
+          left: var(--x3);
+          top: var(--y5);
+          width: calc(var(--x5) - var(--x3));
+          height: calc(var(--y6) - var(--y5));
+        "
+      >
+        15
+      </div>
+
+      <!-- 16 -->
+      <div
+        class="block"
+        style="
+          left: var(--x5);
+          top: var(--y4);
+          width: calc(var(--x7) - var(--x5));
+          height: calc(var(--y6) - var(--y4));
+        "
+      >
+        16
+      </div>
+    </div>
+  </body>
+</html>
